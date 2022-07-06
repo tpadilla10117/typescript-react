@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 as getId} from 'uuid';
 /* import Greeter from './components/Greeter'; */
 import ShoppingList from './components/ShoppingList';
 import ShoppingListForm from './components/ShoppingListForm';
@@ -18,7 +19,7 @@ const items = [
 ]; */
 
 interface Item {
-  id: number;
+  id: string;
   product: string;
   quantity: number;
 };
@@ -27,11 +28,16 @@ interface Item {
 function App() {
   const [items, setItems] = useState<Item[]>([]);
 
+  const addItem = (product: string, quantity: number) => {
+    console.log('Firing from the app component: ', product);
+    setItems([...items, {id: getId(), product, quantity}])
+  };
+
   return (
     <div className="App">
       {/* <Greeter person='Drake' /> */}
       <ShoppingList items={items} />
-      <ShoppingListForm />
+      <ShoppingListForm onAddItem={addItem} />
     </div>
   );
 }
